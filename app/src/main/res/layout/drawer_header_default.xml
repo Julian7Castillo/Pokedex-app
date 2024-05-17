@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:gravity="bottom"
+    android:padding="10dp"
+    android:background="@drawable/side_drawer_bar"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    tools:ignore="MissingDefaultResource">
+
+    <ImageView
+        android:layout_width="116dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logosinfondo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pokedex"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_marginBottom="15sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inicia Sesión"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:layout_marginBottom="16dp"/>
+
+</LinearLayout>
