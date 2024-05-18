@@ -11,14 +11,14 @@
     tools:context=".Fragments.PokemonFragment">
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/tvId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -26,7 +26,7 @@
         android:textSize="24sp" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/iwPoke"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/pokedexlogo" />
@@ -41,11 +41,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Ataque"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/tvAtaque"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,11 +63,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Defensa"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/tvDefensa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -85,11 +85,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Velocidad"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView22"
+            android:id="@+id/tvVelocidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -107,11 +107,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Ataque Especial"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView24"
+            android:id="@+id/tvEspcialAttack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -130,11 +130,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Defensa Especial"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView27"
+            android:id="@+id/tvEspcialDefense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
