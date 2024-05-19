@@ -3,6 +3,7 @@ package com.example.proyecto_pokemon.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +19,12 @@ import com.example.proyecto_pokemon.Activities.HomeActivity;
 import com.example.proyecto_pokemon.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.zip.Inflater;
 
@@ -32,6 +39,7 @@ public class PerfilFragment extends Fragment {
     TextView tvUser, tvEmail, tvTelefono,tvCumple;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
+    private DatabaseReference mDatabase;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,10 +93,30 @@ public class PerfilFragment extends Fragment {
 
         btnCambiar = view.findViewById(R.id.btnCambiar);
 
-        tvUser.setText(currentUser.getDisplayName());
-        tvEmail.setText(currentUser.getEmail());
-        tvTelefono.setText(currentUser.getPhoneNumber());
-        tvCumple.setText(currentUser.getUid());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DataSnapshot dataSnapshot = snapshot.child("Users");
+
+                final String getUserName = dataSnapshot.child("Name").getValue(String.class);
+                final String getUserEmail = dataSnapshot.child("Email").getValue(String.class);
+                final String getUserPhone = dataSnapshot.child("Phone").getValue(String.class);
+                final String getUserBirday = dataSnapshot.child("Cumple").getValue(String.class);
+
+                Toast.makeText(getContext(), "Nombre de usuario"+getUserEmail, Toast.LENGTH_LONG).show();
+
+                tvUser.setText(getUserName);
+                tvEmail.setText(getUserEmail);
+                tvTelefono.setText(getUserPhone);
+                tvCumple.setText(getUserBirday);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         btnCambiar.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.example.proyecto_pokemon.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.proyecto_pokemon.R;
 import com.squareup.picasso.Picasso;
@@ -23,7 +25,7 @@ public class PokemonFragment extends Fragment {
 
     TextView tvId, tvName,tvAtaque, tvDefensa, tvVelocidad, tvEspcialAttack, tvEspcialDefense;
     Context context;
-    ImageView imgPoke;
+    ImageView iwPoke;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,6 +67,7 @@ public class PokemonFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,36 +75,51 @@ public class PokemonFragment extends Fragment {
 
         tvId = view.findViewById(R.id.tvId);
         tvName = view.findViewById(R.id.tvName);
+        iwPoke = view.findViewById(R.id.iwPoke);
         tvAtaque = view.findViewById(R.id.tvAtaque);
         tvDefensa = view.findViewById(R.id.tvDefensa);
         tvVelocidad = view.findViewById(R.id.tvVelocidad);
         tvEspcialAttack = view.findViewById(R.id.tvEspcialAttack);
         tvEspcialDefense = view.findViewById(R.id.tvEspcialDefense);
 
-        //final String getId = getIntent().getStringExtra("number");
-        //final String getName = getIntent().getStringExtra("name");
-        //final String getType = getIntent().getStringExtra("type");
-        //final String getTotal = getIntent().getStringExtra("total");
-        //final String getHp = getIntent().getStringExtra("hp");
-        //final String getAttack = getIntent().getStringExtra("attack");
-        //final String getDefense = getIntent().getStringExtra("defense");
-        //final String getSpAtk = getIntent().getStringExtra("sp_atk");
-        //final String getSpDef = getIntent().getStringExtra("sp_def");
-        //final String getSpeed = getIntent().getStringExtra("speed");
+        // Obtener los datos del Bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            final String number = bundle.getString("number");
+            final String name = bundle.getString("name");
+            final String sprite = bundle.getString("sprite");
+            final String attack = bundle.getString("attack");
+            final String defense = bundle.getString("defense");
+            final String sp_atk = bundle.getString("sp_atk");
+            final String sp_def = bundle.getString("sp_def");
+            final String speed = bundle.getString("speed");
 
-        //tvId.setText(getId);
-        //tvName.setText(getName);
-        //tvAtaque.setText(getAttack);
-        //tvDefensa.setText(getDefense);
-        //tvVelocidad.setText(getSpeed);
-        //tvEspcialAttack.setText(getSpAtk);
-        //tvEspcialDefense.setText(getSpDef);
+            // Cargar imagen predeterminada si getProfilePicture es nulo o vacío
+            if (iwPoke != null) {
+                if (!sprite.isEmpty()) {
+                    Picasso.with(context)
+                            .load(sprite)
+                            .resize(750, 750) // Especifica las dimensiones deseadas
+                            .centerInside()
+                            .into(iwPoke);
+                }
+            }else {
+                Toast.makeText(getContext(), "imgPoke is null. Check the layout ID or the inflation process.", Toast.LENGTH_SHORT).show();
 
-        // Cargar imagen predeterminada si getProfilePicture es nulo o vacío
-        //if (!FotoUser.isEmpty()) {
-            //Picasso.get().load(FotoUser).into(iwPoke);
-        //}
-        // Inflate the layout for this fragment
+            }
+
+            // Usa los datos recibidos
+            tvId.setText(number);
+            tvName.setText(name);
+            tvAtaque.setText(attack);
+            tvDefensa.setText(defense);
+            tvVelocidad.setText(speed);
+            tvEspcialAttack.setText(sp_atk);
+            tvEspcialDefense.setText(sp_def);
+
+        }else{
+            Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 }

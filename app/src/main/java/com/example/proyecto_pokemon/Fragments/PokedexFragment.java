@@ -110,7 +110,7 @@ public class PokedexFragment extends Fragment {
             public void onResponse(Call<responseApi> call, Response<responseApi> response) {
                 if(response.isSuccessful()){
                     //Toast.makeText(HomeActivity.this, ""+response, Toast.LENGTH_LONG).show();
-                    pokemonAdapter = new PokemonAdapter(response.body().getPokemones());
+                    pokemonAdapter = new PokemonAdapter(response.body().getPokemones(), getActivity());
                     rvPokemon.setAdapter(pokemonAdapter);
                 }else{
                     Toast.makeText(getContext(), "Error de usuario. Código: " + response.code(), Toast.LENGTH_SHORT).show();
