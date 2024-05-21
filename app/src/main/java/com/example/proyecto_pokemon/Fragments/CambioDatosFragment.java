@@ -11,9 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.proyecto_pokemon.Activities.HomeActivity;
+import com.example.proyecto_pokemon.Activities.LoginActivity;
 import com.example.proyecto_pokemon.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +32,10 @@ import com.example.proyecto_pokemon.R;
  */
 public class CambioDatosFragment extends Fragment {
 
+    EditText editTextPhone, edName, edPasPass1, edPass1, edPass2;
     Button btnVolverConformarDatos, btnConformarDatos;
+    DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,12 +82,46 @@ public class CambioDatosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cambio_datos, container, false);
 
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+
+        edName = view.findViewById(R.id.edName);
+        editTextPhone = view.findViewById(R.id.editTextPhone);
+        edPasPass1 = view.findViewById(R.id.edPasPass1);
+        edPass1 = view.findViewById(R.id.edPass1);
+        edPass2 = view.findViewById(R.id.edPass2);
+
         btnVolverConformarDatos = view.findViewById(R.id.btnVolverConformarDatos);
         btnConformarDatos = view.findViewById(R.id.btnConformarDatos);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String username = dataSnapshot.child("Name").getValue(String.class);
+                    String email = dataSnapshot.child("Email").getValue(String.class);
+                    String phone = dataSnapshot.child("Phone").getValue(String.class);
+                    String birday = dataSnapshot.child("Cumple").getValue(String.class);
+
+                    // Ahora puedes utilizar los datos guardados en SharedPreferences según sea necesario
+                    edName.setText(username);
+                    editTextPhone.setText(phone);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Maneja el error de lectura de datos
+                }
+            });
+        }
 
         btnVolverConformarDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 PerfilFragment perfilfragment = new PerfilFragment();
@@ -87,15 +134,44 @@ public class CambioDatosFragment extends Fragment {
         btnConformarDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                PerfilFragment perfilfragment = new PerfilFragment();
-                fragmentTransaction.replace(R.id.frame_layout_Pokedex, perfilfragment);
-                fragmentTransaction.addToBackStack(null); // Esto permite volver al fragmento anterior al presionar el botón de retroceso
-                fragmentTransaction.commit();
+
+                DataSnapshot dataSnapshot;
+
+                String newName = String.valueOf(edName.getText());
+                String NewPhone = String.valueOf(editTextPhone.getText());
+                String PastPassword = String.valueOf(edPasPass1.getText());
+                String NewPassword1 = String.valueOf(edPass1.getText());
+                String NewPassword2 = String.valueOf(edPass2.getText());
+
+                if (mDatabase != null) {
+                    mDatabase.child("Users").child(mAuth.getUid()).child("Name").setValue(newName);
+                    mDatabase.child("Users").child(mAuth.getUid()).child("Phone").setValue(NewPhone);
+
+                    String pastpas = String.valueOf(mDatabase.child("Users").child(mAuth.getUid()).child("Password"));
+                    Toast.makeText(getContext(),"Las contraseñas era"+pastpas,Toast.LENGTH_SHORT).show();
+
+                    if(PastPassword.length() != 0 /*&& PastPassword.length() == pastpas*/){
+                        if (NewPassword1.length() == NewPassword2.length()){
+
+                            mDatabase.child("Users").child(mAuth.getUid()).child("Password").setValue(NewPassword1);
+
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            PerfilFragment perfilfragment = new PerfilFragment();
+                            fragmentTransaction.replace(R.id.frame_layout_Pokedex, perfilfragment);
+                            fragmentTransaction.addToBackStack(null); // Esto permite volver al fragmento anterior al presionar el botón de retroceso
+                            fragmentTransaction.commit();
+                        }else{
+                            Toast.makeText(getContext(),"Las contraseñas deben ser iguales",Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(),"Error de Cambio de datos",Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(),"No se pudo, Usuario: "+ mAuth.getUid(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         return view;
     }
 }
