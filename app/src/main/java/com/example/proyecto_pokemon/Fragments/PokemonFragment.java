@@ -1,5 +1,7 @@
 package com.example.proyecto_pokemon.Fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.proyecto_pokemon.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +22,10 @@ import com.example.proyecto_pokemon.R;
  * create an instance of this fragment.
  */
 public class PokemonFragment extends Fragment {
+
+    TextView tvId, tvName,tvAtaque, tvDefensa, tvVelocidad, tvEspcialAttack, tvEspcialDefense;
+    Context context;
+    ImageView iwPoke;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,10 +67,59 @@ public class PokemonFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pokemon, container, false);
+        View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
+
+        tvId = view.findViewById(R.id.tvId);
+        tvName = view.findViewById(R.id.tvName);
+        iwPoke = view.findViewById(R.id.iwPoke);
+        tvAtaque = view.findViewById(R.id.tvAtaque);
+        tvDefensa = view.findViewById(R.id.tvDefensa);
+        tvVelocidad = view.findViewById(R.id.tvVelocidad);
+        tvEspcialAttack = view.findViewById(R.id.tvEspcialAttack);
+        tvEspcialDefense = view.findViewById(R.id.tvEspcialDefense);
+
+        // Obtener los datos del Bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            final String number = bundle.getString("number");
+            final String name = bundle.getString("name");
+            final String sprite = bundle.getString("sprite");
+            final String attack = bundle.getString("attack");
+            final String defense = bundle.getString("defense");
+            final String sp_atk = bundle.getString("sp_atk");
+            final String sp_def = bundle.getString("sp_def");
+            final String speed = bundle.getString("speed");
+
+            // Cargar imagen predeterminada si getProfilePicture es nulo o vacío
+            if (iwPoke != null) {
+                if (!sprite.isEmpty()) {
+                    Picasso.with(context)
+                            .load(sprite)
+                            .resize(750, 750) // Especifica las dimensiones deseadas
+                            .centerInside()
+                            .into(iwPoke);
+                }
+            }else {
+                Toast.makeText(getContext(), "imgPoke is null. Check the layout ID or the inflation process.", Toast.LENGTH_SHORT).show();
+
+            }
+
+            // Usa los datos recibidos
+            tvId.setText(number);
+            tvName.setText(name);
+            tvAtaque.setText(attack);
+            tvDefensa.setText(defense);
+            tvVelocidad.setText(speed);
+            tvEspcialAttack.setText(sp_atk);
+            tvEspcialDefense.setText(sp_def);
+
+        }else{
+            Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
+        }
+        return view;
     }
 }

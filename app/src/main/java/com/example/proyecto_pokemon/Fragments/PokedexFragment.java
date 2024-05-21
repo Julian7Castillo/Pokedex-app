@@ -98,18 +98,6 @@ public class PokedexFragment extends Fragment {
         return view;
     }
 
-    //constructor
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        rvPokemon = findViewById(R.id.rvPokemon);
-        rvPokemon.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        obtenerPokemones();
-    }*/
-
     //adaptador de cardView
     LinkedList<Pokemon> obtenerPokemones(){
         pokemones = new LinkedList<>();
@@ -122,20 +110,18 @@ public class PokedexFragment extends Fragment {
             public void onResponse(Call<responseApi> call, Response<responseApi> response) {
                 if(response.isSuccessful()){
                     //Toast.makeText(HomeActivity.this, ""+response, Toast.LENGTH_LONG).show();
-                    pokemonAdapter = new PokemonAdapter(response.body().getPokemones());
+                    pokemonAdapter = new PokemonAdapter(response.body().getPokemones(), getActivity());
                     rvPokemon.setAdapter(pokemonAdapter);
                 }else{
                     Toast.makeText(getContext(), "Error de usuario. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<responseApi> call, Throwable t) {
                 System.out.println("Error "+t.toString());
                 Toast.makeText(getContext(), "Error en el servidor ", Toast.LENGTH_LONG).show();
             }
         });
-
         return pokemones;
     }
 }
