@@ -33,6 +33,7 @@ import com.example.proyecto_pokemon.DataBase.ApiJsonClient;
 import com.example.proyecto_pokemon.Fragments.BlogFragment;
 import com.example.proyecto_pokemon.Fragments.PerfilFragment;
 import com.example.proyecto_pokemon.Fragments.PokedexFragment;
+import com.example.proyecto_pokemon.Fragments.QuestionFragment;
 import com.example.proyecto_pokemon.Models.Pokemon;
 import com.example.proyecto_pokemon.Models.responseApi;
 import com.example.proyecto_pokemon.R;
@@ -123,7 +124,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_Pokedex, new BlogFragment()).commit();
             bottomNavigationViewPokedex.setSelectedItemId(R.id.itemBlog);
 
-        } else if (item.getItemId() == R.id.idLogout) {
+        } else if (item.getItemId() == R.id.idQuestion) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_Pokedex, new QuestionFragment()).commit();
+
+        }else if (item.getItemId() == R.id.idLogout) {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);

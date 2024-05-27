@@ -4,4 +4,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_nav">open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
+
+    //Headings
+    <string name="heading_one">Que es una Pokedex?</string>
+    <string name="heading_two">Que puedes hacer en nuestra pokedex?</string>
+    <string name="heading_three">Que puedo hacer con los pokemones?</string>
+    <string name="heading_fourth">Empecemos </string>
+
+    //Description
+    <string name="desc_one">Una Pokedex es  una enciclopedia electrónica portátil que los entrenadores Pokémon llevan consigo para registrar automáticamente las fichas de todas las diversas especies Pokémon</string>
+    <string name="desc_two">En nuestra Pokedex podrás registrarte he iniciar sesión para lograr visualziar las diversas especies de pokemones, desde la region de Kanto hasta la region de Alola los primeros 807 pokemones</string>
+    <string name="desc_three">con nuestra gran variedad de especies podras visualizar las estadisticas de cada pokemon elejir tu favorito he incluso tener un equipo de hasta 6 pokemones que elijas, todos estos datos los veras reflejados en tu perfil </string>
+    <string name="desc_fourth">Registrate o inicia sesión y podras empezar a saber mas del mundo pokemon.</string>
+
 </resources>

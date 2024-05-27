@@ -132,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         map.put("Phone", Phone);
                                         map.put("Birthday", Cumple);
                                         map.put("Password", clave2);
-                                        map.put("Favotite", new ArrayList<String>());
+                                        map.put("Favorite", new ArrayList<String>());
                                         map.put("Team", new ArrayList<Map<String, Object>>());
 
                                         String id = mAuth.getCurrentUser().getUid();

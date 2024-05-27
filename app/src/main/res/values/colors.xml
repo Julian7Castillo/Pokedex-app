@@ -12,4 +12,6 @@
     <color name="colorText">#000000</color>
     <color name="searchBackground">#FFFFFF</color>
     <color name="searchStroke">#6200EE</color>
+
+    <color name="inactive">#C4C4C4</color>
 </resources>

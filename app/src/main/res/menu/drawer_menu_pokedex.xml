@@ -20,6 +20,10 @@
             android:id="@+id/idBlog"
             android:icon="@drawable/icon_chat_24"
             android:title="Blog" />
+        <item
+            android:id="@+id/idQuestion"
+            android:icon="@drawable/icon_question_mark_24"
+            android:title="Preguntas Frecuentes" />
     </group>
 
     <item

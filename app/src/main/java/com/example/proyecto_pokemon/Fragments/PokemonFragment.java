@@ -1,29 +1,50 @@
 package com.example.proyecto_pokemon.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.proyecto_pokemon.Activities.LoginActivity;
 import com.example.proyecto_pokemon.Activities.RegisterActivity;
 import com.example.proyecto_pokemon.Models.Pokemon;
 import com.example.proyecto_pokemon.Models.Sprites;
 import com.example.proyecto_pokemon.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,14 +54,21 @@ import com.squareup.picasso.Picasso;
 public class PokemonFragment extends Fragment {
 
     TextView tvId, tvName, tvTotal, tvVida, tvAtaque, tvDefensa, tvVelocidad, tvEspcialAttack, tvEspcialDefense;
+    TextView twPokeTeam1, twPokeTeam2, twPokeTeam3, twPokeTeam4, twPokeTeam5, twPokeTeam6;
     Context context;
     ImageView iwPoke;
     FloatingActionButton fabFavorite, fabAdd;
     Button btnTipo1, btnTipo2;
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
 
     //Variables globales
-    private boolean isIconChanged = false;
+    private boolean isFavorite = false;
     private boolean isInTeam = false;
+    private boolean therAreFavorite = false;
+    boolean newisInTeam = false;
+    String poke = "";
+    int indice;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,6 +115,9 @@ public class PokemonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         tvId = view.findViewById(R.id.tvId);
         tvName = view.findViewById(R.id.tvName);
@@ -155,9 +186,79 @@ public class PokemonFragment extends Fragment {
                 btnTipo1.setBackgroundColor(R.color.blue);
             }
 
+            //obtener uy mostrar informacion de usuario que inicio sesion
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String favorito = dataSnapshot.child("Favorite").getValue(String.class);
+                        String poke1 = dataSnapshot.child("Equipo").child("0").getValue(String.class);
+                        String poke2 = dataSnapshot.child("Equipo").child("1").getValue(String.class);
+                        String poke3 = dataSnapshot.child("Equipo").child("2").getValue(String.class);
+                        String poke4 = dataSnapshot.child("Equipo").child("3").getValue(String.class);
+                        String poke5 = dataSnapshot.child("Equipo").child("4").getValue(String.class);
+                        String poke6 = dataSnapshot.child("Equipo").child("5").getValue(String.class);
+
+                        if (!(favorito == null || favorito.equals(""))){
+                            therAreFavorite = true;
+                            if (favorito.equals(number)){
+                                fabFavorite.setImageResource(R.drawable.icon_favorite_24);
+                                isFavorite = true;
+                            }
+                        }
+
+                        if (!(poke1 == null)){
+                            if (poke1.equals(number)) {
+                                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                isInTeam = true;
+                            }
+                        }
+                        if (!(poke2 == null)){
+                            if (poke2.equals(number)) {
+                                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                isInTeam = true;
+                            }
+                        }
+                        if (!(poke3 == null)){
+                            if (poke3.equals(number)) {
+                                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                isInTeam = true;
+                            }
+                        }
+                        if (!(poke4 == null)){
+                            if (poke4.equals(number)) {
+                                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                isInTeam = true;
+                            }
+                        }
+                        if (!(poke5 == null)){
+                            if (poke5.equals(number)) {
+                                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                isInTeam = true;
+                            }
+                        }
+                        if (!(poke6 == null)){
+                            if (poke6.equals(number)) {
+                                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                isInTeam = true;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Maneja el error de lectura de datos
+                    }
+                });
+            }
+
         }else{
             Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
         }
+
+        //seleccion de corazon en el caso de que el poquyemon se pfavotrito
 
         fabFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,54 +276,95 @@ public class PokemonFragment extends Fragment {
     private void favorito(){
 
         String number = "";
-        String name = "" ;
-        //Sprites sprite ="";
-        String[] type = new String[]{""};
-        String total = "";
-        String vida = "";
-        String attack = "";
-        String defense = "";
-        String sp_atk = "";
-        String sp_def = "";
-        String speed = "";
-
         Boolean estado = false;
 
         Bundle bundle = getArguments();
         if (bundle != null) {
             number = bundle.getString("number");
-            name = bundle.getString("name");
-            //sprite = bundle.getString("spritecomplete");
-            type = bundle.getStringArray("type");
-            total = bundle.getString("total");
-            vida = bundle.getString("hp");
-            attack = bundle.getString("attack");
-            defense = bundle.getString("defense");
-            sp_atk = bundle.getString("sp_atk");
-            sp_def = bundle.getString("sp_def");
-            speed = bundle.getString("speed");
+
         }else{
             Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
         }
 
-        if (estado == false) {
-            if (isIconChanged) {
-                fabFavorite.setImageResource(R.drawable.icon_favorite_border_24);
-                Toast.makeText(getContext(), "Pokemon a dejado de ser favorito", Toast.LENGTH_SHORT).show();
+        if (therAreFavorite == false) {
+            if (isFavorite) {
+
+                final String pokeToRemove = number;
+                String id = mAuth.getCurrentUser().getUid();
+                DatabaseReference userRef = mDatabase.child("Users").child(id).child("Favorite");
+
+                // Lee el array actual de "Equipo"
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String pokeFavya = pokeToRemove;
+
+                        // Elimina el elemento si existe en la lista
+                        if (pokeFavya.equals(pokeToRemove)) {
+                            pokeFavya = "";
+
+                            // Actualiza el campo "Equipo" en la base de datos
+                            userRef.setValue(pokeFavya).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        // Operación exitosa
+                                        fabFavorite.setImageResource(R.drawable.icon_favorite_border_24);
+                                        Toast.makeText(getContext(), "Pokemon a dejado de ser favorito", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Manejar errores
+                                        Toast.makeText(getContext(), "Error al eliminar el elemento.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            // Manejar caso cuando el elemento no está en la lista
+                            Toast.makeText(getContext(), "El Pokemon no está en favoritos.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Manejar errores de lectura de datos
+                        Toast.makeText(getContext(), "Error de lectura de datos: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             } else {
-                fabFavorite.setImageResource(R.drawable.icon_favorite_24);
-
-                //Pokemon favorito = new Pokemon(number,name,type,sprite,total,vida,attack,defense,sp_atk,sp_def,speed);
-
-                Toast.makeText(getContext(), "Pokemon seleccionado como favoritn", Toast.LENGTH_SHORT).show();
+                String id = mAuth.getCurrentUser().getUid();
+                mDatabase.child("Users").child(id).child("Favorite").setValue(number).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task2) {
+                        if (task2.isSuccessful()){
+                            fabFavorite.setImageResource(R.drawable.icon_favorite_24);
+                            Toast.makeText(getContext(), "Pokemon seleccionado como favorito", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Pokemon No sea seleccionado como favoritn", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-            isIconChanged = !isIconChanged;
+            isFavorite = !isFavorite;
 
         }else{
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+            String finalNumber = number;
             alert.setTitle("Confirmar").setMessage("Ya tienes un pokemon favorito ¿Estas seguro de remplazarlo? ").setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getContext(), "Pokemn seleccionado como favoriton", Toast.LENGTH_SHORT).show();
+                    String id = mAuth.getCurrentUser().getUid();
+                    mDatabase.child("Users").child(id).child("Favorite").setValue(finalNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task2) {
+                            if (task2.isSuccessful()){
+                                fabFavorite.setImageResource(R.drawable.icon_favorite_24);
+                                Toast.makeText(getContext(), "Pokemon seleccionado como favorito", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getContext(), "Pokemon No sea seleccionado como favoritn", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             })
                     .setNegativeButton("No", null)
@@ -231,28 +373,294 @@ public class PokemonFragment extends Fragment {
     }
 
     private void AgregarEquipo() {
-        Boolean estado = false;
-
-        if (estado == false) {
-            if (isInTeam) {
-                fabAdd.getDrawable().setColorFilter(null);
-                Toast.makeText(getContext(), "El Pokemon a dejado el  equipo", Toast.LENGTH_SHORT).show();
-
-            } else {
-                fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
-                Toast.makeText(getContext(), "Pokemon seleccionado para equipo", Toast.LENGTH_SHORT).show();
-            }
-            isInTeam = !isInTeam;
+        String number = "";
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            number = bundle.getString("number");
 
         }else{
-            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-            alert.setTitle("Confirmar").setMessage("Ya tienes un equipo de 6 ¿Quieres sustituir uno de tus 6 Pokemón en tu equipo? ").setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getContext(), "Selecciona el pokemon a cambial", Toast.LENGTH_SHORT).show();
-                }
-            })
-                    .setNegativeButton("No", null)
-                    .setCancelable(false).show();
+            Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
         }
+
+        if (isInTeam) {
+            final String pokeToRemove = number;
+            String id = mAuth.getCurrentUser().getUid();
+            DatabaseReference userRef = mDatabase.child("Users").child(id).child("Equipo");
+
+            // Lee el array actual de "Equipo"
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<String> equipoList = new ArrayList<>();
+
+                    // Si el campo "Equipo" existe, agrégalo a la lista
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            equipoList.add(snapshot.getValue(String.class));
+                        }
+                    }
+
+                    // Elimina el elemento si existe en la lista
+                    if (equipoList.contains(pokeToRemove)) {
+                        equipoList.remove(pokeToRemove);
+
+                        // Actualiza el campo "Equipo" en la base de datos
+                        userRef.setValue(equipoList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    // Operación exitosa
+                                    Toast.makeText(getContext(), "El Pokemon a dejado el equipo", Toast.LENGTH_SHORT).show();
+                                    fabAdd.getDrawable().setColorFilter(null);
+                                } else {
+                                    // Manejar errores
+                                    Toast.makeText(getContext(), "Error al eliminar el elemento.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        // Manejar caso cuando el elemento no está en la lista
+                        Toast.makeText(getContext(), "El Pokemon no está en el equipo.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Manejar errores de lectura de datos
+                    Toast.makeText(getContext(), "Error de lectura de datos: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+            String id = mAuth.getCurrentUser().getUid();
+            DatabaseReference userRef = mDatabase.child("Users").child(id).child("Equipo");
+
+            // Lee el array actual de "Equipo"
+            String finalNumber = number;
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<String> equipoList = new ArrayList<>();
+
+                    // Si el campo "Equipo" existe, agrégalo a la lista
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            equipoList.add(snapshot.getValue(String.class));
+                        }
+                    }
+
+                    // Verifica si la lista tiene menos de 6 elementos
+                    if (equipoList.size() < 6) {
+                        equipoList.add(finalNumber);
+
+                        // Actualiza el campo "Equipo" en la base de datos
+                        userRef.setValue(equipoList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                                    Toast.makeText(getContext(), "Pokemon seleccionado para equipo", Toast.LENGTH_SHORT).show();
+                                    isInTeam = !isInTeam;
+                                } else {
+                                    // Manejar errores
+                                }
+                            }
+                        });
+                    } else {
+                        // Manejar caso cuando el array tiene 6 elementos
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                        alert.setTitle("Confirmar").setMessage("Ya tienes un equipo de 6 ¿Quieres sustituir uno de tus 6 Pokemón en tu equipo? ").setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getContext(), "Selecciona el pokemon a cambiar", Toast.LENGTH_SHORT).show();
+                                        boolean resultado1 = false;
+
+                                        resultado1 = showBottomDialog();
+
+                                        if (resultado1 == true){
+                                            isInTeam = !isInTeam;
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("No", null)
+                                .setCancelable(false).show();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Manejar errores de lectura de datos
+                }
+            });
+        }
+    }
+    private boolean showBottomDialog() {
+
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.button_sheetlayout_pokeomon_team);
+
+        twPokeTeam1 = dialog.findViewById(R.id.twPokeTeam1);
+        twPokeTeam2 = dialog.findViewById(R.id.twPokeTeam2);
+        twPokeTeam3 = dialog.findViewById(R.id.twPokeTeam3);
+        twPokeTeam4 = dialog.findViewById(R.id.twPokeTeam4);
+        twPokeTeam5 = dialog.findViewById(R.id.twPokeTeam5);
+        twPokeTeam6 = dialog.findViewById(R.id.twPokeTeam6);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String poke1 = dataSnapshot.child("Equipo").child("0").getValue(String.class);
+                    String poke2 = dataSnapshot.child("Equipo").child("1").getValue(String.class);
+                    String poke3 = dataSnapshot.child("Equipo").child("2").getValue(String.class);
+                    String poke4 = dataSnapshot.child("Equipo").child("3").getValue(String.class);
+                    String poke5 = dataSnapshot.child("Equipo").child("4").getValue(String.class);
+                    String poke6 = dataSnapshot.child("Equipo").child("5").getValue(String.class);
+
+                    twPokeTeam1.setText(poke1);
+                    twPokeTeam2.setText(poke2);
+                    twPokeTeam3.setText(poke3);
+                    twPokeTeam4.setText(poke4);
+                    twPokeTeam5.setText(poke5);
+                    twPokeTeam6.setText(poke6);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Maneja el error de lectura de datos
+                }
+            });
+        }
+
+        LinearLayout layoutPoke1 = dialog.findViewById(R.id.layoutPoke1);
+        LinearLayout layoutPoke2 = dialog.findViewById(R.id.layoutPoke2);
+        LinearLayout layoutPoke3 = dialog.findViewById(R.id.layoutPoke3);
+        LinearLayout layoutPoke4 = dialog.findViewById(R.id.layoutPoke4);
+        LinearLayout layoutPoke5 = dialog.findViewById(R.id.layoutPoke5);
+        LinearLayout layoutPoke6 = dialog.findViewById(R.id.layoutPoke6);
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButtonUSer);
+
+        layoutPoke1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                newisInTeam = true;
+                cambairPoke(0);
+            }
+        });
+
+        layoutPoke2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                newisInTeam = true;
+                cambairPoke(1);
+            }
+        });
+
+        layoutPoke3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                newisInTeam = true;
+                cambairPoke(2);
+            }
+        });
+
+        layoutPoke4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                newisInTeam = true;
+                cambairPoke(3);
+            }
+        });
+
+        layoutPoke5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                newisInTeam = true;
+                cambairPoke(4);
+            }
+        });
+
+        layoutPoke6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                newisInTeam = true;
+                cambairPoke(5);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        return newisInTeam;
+    }
+
+    private void cambairPoke(int indice){
+
+        String number = "";
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            number = bundle.getString("number");
+
+        }else{
+            Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
+        }
+
+        String id = mAuth.getCurrentUser().getUid();
+        DatabaseReference userRef = mDatabase.child("Users").child(id).child("Equipo");
+
+        String finalNumber = number;
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> equipoList = new ArrayList<>();
+
+                // Si el campo "Equipo" existe, agrégalo a la lista
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        equipoList.add(snapshot.getValue(String.class));
+                    }
+                }
+                equipoList.set(indice, finalNumber);
+
+                // Actualiza el campo "Equipo" en la base de datos
+                userRef.setValue(equipoList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
+                            Toast.makeText(getContext(), "Pokemon seleccionado para equipo", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Manejar errores
+                        }
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Manejar errores de lectura de datos
+            }
+        });
     }
 }
