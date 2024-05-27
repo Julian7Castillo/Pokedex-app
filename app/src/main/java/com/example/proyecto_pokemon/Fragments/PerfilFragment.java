@@ -129,7 +129,7 @@ public class PerfilFragment extends Fragment implements OnMapReadyCallback {
                     String username = dataSnapshot.child("Name").getValue(String.class);
                     String email = dataSnapshot.child("Email").getValue(String.class);
                     String phone = dataSnapshot.child("Phone").getValue(String.class);
-                    String birday = dataSnapshot.child("Cumple").getValue(String.class);
+                    String birday = dataSnapshot.child("Birthday").getValue(String.class);
 
                     // Ahora puedes utilizar los datos guardados en SharedPreferences según sea necesario
                     tvUser.setText(username);

@@ -78,8 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = edPass.getText().toString();
         if(!email.isEmpty()){
             if(!password.isEmpty()){
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
