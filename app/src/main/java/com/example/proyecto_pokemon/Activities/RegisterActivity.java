@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,8 +130,10 @@ public class RegisterActivity extends AppCompatActivity {
                                         map.put("Name", nombre);
                                         map.put("Email", correo);
                                         map.put("Phone", Phone);
-                                        map.put("birthday", Cumple);
+                                        map.put("Birthday", Cumple);
                                         map.put("Password", clave2);
+                                        map.put("Favotite", new ArrayList<String>());
+                                        map.put("Team", new ArrayList<Map<String, Object>>());
 
                                         String id = mAuth.getCurrentUser().getUid();
 

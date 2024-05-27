@@ -1,17 +1,26 @@
 package com.example.proyecto_pokemon.Models;
 
 public class Chat {
-    String username, mesage, date, time;
+    String email, username, mesage, date, time;
 
     public Chat() {
 
     }
 
-    public Chat(String username, String mesage, String date, String time) {
+    public Chat(String email, String username, String mesage, String date, String time) {
+        this.email = email;
         this.username = username;
         this.mesage = mesage;
         this.date = date;
         this.time = time;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

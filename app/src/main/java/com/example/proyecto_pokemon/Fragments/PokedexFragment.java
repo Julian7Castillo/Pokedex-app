@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.proyecto_pokemon.Activities.HomeActivity;
@@ -41,6 +42,7 @@ public class PokedexFragment extends Fragment {
     PokemonAdapter pokemonAdapter;
     LinkedList<Pokemon> pokemones;
     RecyclerView rvPokemon;
+    SearchView buscador;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,7 +83,6 @@ public class PokedexFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -89,7 +90,26 @@ public class PokedexFragment extends Fragment {
 
         // Inicializar el RecyclerView
         rvPokemon = view.findViewById(R.id.rvPokemon);
+        buscador = view.findViewById(R.id.buscador);
+
         rvPokemon.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        buscador.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!(pokemonAdapter == null))
+                    pokemonAdapter.filter(newText);
+                else{
+
+                }
+                return true;
+            }
+        });
 
         // Obtener y mostrar los Pokémon
         obtenerPokemones();

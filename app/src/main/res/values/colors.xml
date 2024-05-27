@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#2d2d2d</color>
+    <color name="Fullblack">#000000</color>
     <color name="white">#f4f4f2</color>
     <color name="red">#cb202d</color>
+    <color name="blue">#094293</color>
+    <color name="Transparente">#00FFFFFF</color>
+
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorHint">#757575</color>
+    <color name="colorText">#000000</color>
+    <color name="searchBackground">#FFFFFF</color>
+    <color name="searchStroke">#6200EE</color>
 </resources>

@@ -25,15 +25,17 @@ import com.squareup.picasso.Picasso;
 import java.util.LinkedList;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHolder> {
-    LinkedList<Pokemon> pokemones;
+    private LinkedList<Pokemon> pokemones;
+    private LinkedList<Pokemon> filtroPokemones;
     RecyclerView rvPokemon;
     Context context;
+    private PokemonAdapter pokemonAdapter;
     CardView cardPoke;
     public PokemonAdapter(LinkedList<Pokemon> pokemones, Context context){
         this.pokemones = pokemones;
         this.context = context;
+        this.filtroPokemones = new LinkedList<>(pokemones);
     }
-
 
     @NonNull
     @Override
@@ -45,32 +47,30 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull PokemonAdapter.ViewHolder holder, int position) {
 
-        Pokemon pokemonList  = pokemones.get(position);
+        if ( !filtroPokemones.isEmpty() && position < filtroPokemones.size()){
 
-        Picasso.with(holder.itemView.getContext())
-                .load(pokemonList.getSprites().getLarge().toString())
-                .resize(750, 750) // Especifica las dimensiones deseadas
-                .centerInside()
-                .into(holder.imgPoke);
-        /*Picasso.with(holder.itemView.getContext())
-                .load(pokemon.getSprites().getAnimated().toString())
-                .resize(300, 300) // Especifica las dimensiones deseadas
-                .centerInside() // Puedes usar centerCrop(), centerInside() o fit() según tus necesidades
-                .into(holder.imgPoke);*/
-        holder.tvId.setText(pokemonList.getNational_number());
-        holder.tvName.setText(String.valueOf(pokemonList.getName()));
+            Pokemon pokemonList  = filtroPokemones.get(position);
 
-        holder.layout_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickPokemon(pokemonList);
-            }
-        });
+            Picasso.with(holder.itemView.getContext())
+                    .load(pokemonList.getSprites().getLarge().toString())
+                    .resize(750, 750) // Especifica las dimensiones deseadas
+                    .centerInside()
+                    .into(holder.imgPoke);
+            holder.tvId.setText(pokemonList.getNational_number());
+            holder.tvName.setText(String.valueOf(pokemonList.getName()));
+
+            holder.layout_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickPokemon(pokemonList);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return pokemones.size();
+        return filtroPokemones.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -110,5 +110,21 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
                 .replace(R.id.frame_layout_Pokedex, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public void filter(String text) {
+        filtroPokemones.clear();
+        if (text.isEmpty()) {
+            filtroPokemones.addAll(pokemones);
+        } else {
+            //text = text.toLowerCase();
+            for (Pokemon item : pokemones) {
+                if (item.getName().toLowerCase().contains(text.toLowerCase()) || item.getNational_number().toLowerCase().contains(text.toLowerCase())) {
+                    filtroPokemones.add(item);
+
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }
