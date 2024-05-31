@@ -7,16 +7,6 @@
 
     <style name="Theme.ProyectoPokemon" parent="Base.Theme.ProyectoPokemon" />
 
-    <!-- Estilo personalizado para el SearchView -->
-    <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="queryBackground">@drawable/search_view_background</item>
-        <item name="android:iconifiedByDefault">false</item>
-        <item name="android:queryHint">Buscar Pokémon...</item>
-        <item name="android:textColorHint">@color/colorHint</item>
-        <item name="android:textColor">@color/colorText</item>
-    </style>
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>

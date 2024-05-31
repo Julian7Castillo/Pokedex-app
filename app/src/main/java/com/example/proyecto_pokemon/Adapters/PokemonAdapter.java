@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_pokemon.Fragments.PokemonFragment;
+import com.example.proyecto_pokemon.Models.Evolution;
 import com.example.proyecto_pokemon.Models.Pokemon;
 import com.example.proyecto_pokemon.R;
 import com.squareup.picasso.Picasso;
@@ -57,7 +59,12 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
                     .centerInside()
                     .into(holder.imgPoke);
             holder.tvId.setText(pokemonList.getNational_number());
-            holder.tvName.setText(String.valueOf(pokemonList.getName()));
+
+            if (pokemonList.getEvolution() == null){
+                holder.tvName.setText(String.valueOf(pokemonList.getName()));
+            }else{
+                holder.tvName.setText(String.valueOf(pokemonList.getEvolution().getName()));
+            }
 
             holder.layout_card.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +101,16 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
 
         bundle.putString("number", pokemonList.getNational_number());
         bundle.putString("name", pokemonList.getName());
+        Evolution evolution = pokemonList.getEvolution(); //Método que obtiene el objeto Evolution
+        if (evolution != null) {
+            String nameEvo = evolution.getName();
+            // Resto del código que utiliza el nombrea
+            //System.out.println( "El objeto Evolution es: "+nameEvo);
+            bundle.putString("Evolution", nameEvo);
+        } else {
+            // Manejar el caso donde evolution es null
+            //System.out.println( "PokemonAdapter El objeto Evolution es null");
+        }
         bundle.putStringArray("type", pokemonList.getType());
         bundle.putString("sprite", pokemonList.getSprites().getLarge());
         bundle.putString("total", pokemonList.getTotal());
@@ -119,9 +136,9 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
         } else {
             //text = text.toLowerCase();
             for (Pokemon item : pokemones) {
+
                 if (item.getName().toLowerCase().contains(text.toLowerCase()) || item.getNational_number().toLowerCase().contains(text.toLowerCase())) {
                     filtroPokemones.add(item);
-
                 }
             }
         }

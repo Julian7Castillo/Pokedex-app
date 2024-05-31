@@ -214,10 +214,10 @@ public class BlogFragment extends Fragment {
                     if(snapshot.child("chats").child(getChatKey).hasChild("messages")){
                         chats.clear();
                         for(DataSnapshot messagesSnapshot : snapshot.child("chats").child(getChatKey).child("messages").getChildren()){
-                            if(messagesSnapshot.hasChild("msg") && messagesSnapshot.hasChild("phone")){
+                            if(messagesSnapshot.hasChild("msg") && messagesSnapshot.hasChild("Email")){
                                 final String messageTimestamps = messagesSnapshot.getKey();
-                                final String getPhone = messagesSnapshot.child("phone").getValue(String.class);
-                                final String getMsg   = messagesSnapshot.child("msg").getValue(String.class);
+                                final String getemail = messagesSnapshot.child("email").getValue(String.class);
+                                final String getMsg   = messagesSnapshot.child("mensaje").getValue(String.class);
 
                                 Timestamp timestamp = new Timestamp(Long.parseLong(messageTimestamps));
                                 Date date = new Date(timestamp.getTime());

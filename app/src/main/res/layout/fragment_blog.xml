@@ -37,7 +37,8 @@
         android:paddingTop="10dp"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:elevation="20dp">
 
         <EditText
             android:id="@+id/edMessage"
@@ -47,7 +48,9 @@
             android:textSize="14sp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="20dp"
-            android:hint="Escribe algo..."/>
+            android:hint="Escribe algo..."
+            android:textColor="@color/Fullblack"
+            android:textColorHint="@color/Fullblack"/>
 
         <ImageView
             android:id="@+id/sendBtn"

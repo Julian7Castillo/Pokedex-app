@@ -2,9 +2,10 @@ package com.example.proyecto_pokemon.Models;
 
 public class Pokemon {
     private String national_number;
+    private Evolution evolution;
     private String name;
-    private String[] type;
     private Sprites sprites;
+    private String[] type;
     private String total;
     private String hp;
     private String attack;
@@ -16,11 +17,12 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(String national_number, String name, String[] type, Sprites sprites, String total, String hp, String attack, String defense, String sp_atk, String sp_def, String speed) {
+    public Pokemon(String national_number, Evolution evolution, String name, Sprites sprites, String[] type, String total, String hp, String attack, String defense, String sp_atk, String sp_def, String speed) {
         this.national_number = national_number;
+        this.evolution = evolution;
         this.name = name;
-        this.type = type;
         this.sprites = sprites;
+        this.type = type;
         this.total = total;
         this.hp = hp;
         this.attack = attack;
@@ -38,6 +40,14 @@ public class Pokemon {
         this.national_number = national_number;
     }
 
+    public Evolution getEvolution() {
+        return evolution;
+    }
+
+    public void setEvolution(Evolution evolution) {
+        this.evolution = evolution;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,20 +56,20 @@ public class Pokemon {
         this.name = name;
     }
 
-    public String[] getType() {
-        return type;
-    }
-
-    public void setType(String[] type) {
-        this.type = type;
-    }
-
     public Sprites getSprites() {
         return sprites;
     }
 
     public void setSprites(Sprites sprites) {
         this.sprites = sprites;
+    }
+
+    public String[] getType() {
+        return type;
+    }
+
+    public void setType(String[] type) {
+        this.type = type;
     }
 
     public String getTotal() {

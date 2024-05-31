@@ -26,8 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.proyecto_pokemon.Activities.HomeActivity;
 import com.example.proyecto_pokemon.Activities.LoginActivity;
 import com.example.proyecto_pokemon.Activities.RegisterActivity;
+import com.example.proyecto_pokemon.Models.Evolution;
 import com.example.proyecto_pokemon.Models.Pokemon;
 import com.example.proyecto_pokemon.Models.Sprites;
 import com.example.proyecto_pokemon.R;
@@ -140,6 +142,7 @@ public class PokemonFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             final String number = bundle.getString("number");
+            final String evolution = bundle.getString("Evolution");
             final String name = bundle.getString("name");
             final String sprite = bundle.getString("sprite");
             final String[] type = bundle.getStringArray("type");
@@ -166,7 +169,13 @@ public class PokemonFragment extends Fragment {
 
             // Usa los datos recibidos
             tvId.setText(number);
-            tvName.setText(name);
+            if (evolution == null){
+                tvName.setText(name);
+                //System.out.println("Es nulo "+evolution);
+            }else{
+                tvName.setText(evolution);
+                //System.out.println("No Es nulo "+evolution);
+            }
             tvTotal.setText(total);
             tvVida.setText(vida);
             tvAtaque.setText(attack);
@@ -175,15 +184,122 @@ public class PokemonFragment extends Fragment {
             tvEspcialAttack.setText(sp_atk);
             tvEspcialDefense.setText(sp_def);
             btnTipo1.setText(type[0]);
-            System.out.println(type.length);
+            //System.out.println(type.length);
             if ((type.length == 2)){
                 btnTipo2.setText(type[1]);
+
+                if (type[1].equals("Grass")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.grass));
+
+                }else if (type[1].equals("Poison")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.poison));
+
+                }else if (type[1].equals("Fire")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.fire));
+
+                }else if (type[1].equals("Dragon")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.dragon));
+
+                }else if (type[1].equals("Flying")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.flying));
+
+                }else if (type[1].equals("Water")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.water));
+
+                }else if (type[1].equals("Bug")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.bug));
+
+                }else if (type[1].equals("Normal")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.normal));
+
+                }else if (type[1].equals("Dark")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.dark));
+
+                }else if (type[1].equals("Electric")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.electric));
+
+                }else if (type[1].equals("Psychic")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.psychic));
+
+                }else if (type[1].equals("Ice")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.ice));
+
+                }else if (type[1].equals("Steel")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.steel));
+
+                }else if (type[1].equals("Fairy")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.fairy));
+
+                }else if (type[1].equals("Fighting")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.fighting));
+
+                }else if (type[1].equals("Rock")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.rock));
+
+                }else if (type[1].equals("Ghost")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.ghost));
+
+                }else if (type[1].equals("Ground")){
+                    btnTipo2.setBackgroundColor(getContext().getColor(R.color.ground));
+                }
             }else{
                 btnTipo2.setVisibility(View.GONE);
             }
 
-            if (type[0] == "Grass"){
-                btnTipo1.setBackgroundColor(R.color.blue);
+            //ajuste de colores de fondo de tipos
+            if (type[0].equals("Grass")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.grass));
+
+            }else if (type[0].equals("Poison")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.poison));
+
+            }else if (type[0].equals("Fire")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.fire));
+
+            }else if (type[0].equals("Dragon")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.dragon));
+
+            }else if (type[0].equals("Flying")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.flying));
+
+            }else if (type[0].equals("Water")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.water));
+
+            }else if (type[0].equals("Bug")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.bug));
+
+            }else if (type[0].equals("Normal")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.normal));
+
+            }else if (type[0].equals("Dark")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.dark));
+
+            }else if (type[0].equals("Electric")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.electric));
+
+            }else if (type[0].equals("Psychic")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.psychic));
+
+            }else if (type[0].equals("Ice")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.ice));
+
+            }else if (type[0].equals("Steel")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.steel));
+
+            }else if (type[0].equals("Fairy")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.fairy));
+
+            }else if (type[0].equals("Fighting")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.fighting));
+
+            }else if (type[0].equals("Rock")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.rock));
+
+            }else if (type[0].equals("Ghost")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.ghost));
+
+            }else if (type[0].equals("Ground")){
+                btnTipo1.setBackgroundColor(getContext().getColor(R.color.ground));
             }
 
             //obtener uy mostrar informacion de usuario que inicio sesion
@@ -203,50 +319,55 @@ public class PokemonFragment extends Fragment {
 
                         if (!(favorito == null || favorito.equals(""))){
                             therAreFavorite = true;
-                            if (favorito.equals(number)){
+                            if (favorito.equals(tvName.getText())){
                                 fabFavorite.setImageResource(R.drawable.icon_favorite_24);
                                 isFavorite = true;
                             }
                         }
 
                         if (!(poke1 == null)){
-                            if (poke1.equals(number)) {
+                            if (poke1.equals(tvName.getText())) {
+                                fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                 fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                 isInTeam = true;
                             }
                         }
                         if (!(poke2 == null)){
-                            if (poke2.equals(number)) {
+                            if (poke2.equals(tvName.getText())) {
+                                fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                 fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                 isInTeam = true;
                             }
                         }
                         if (!(poke3 == null)){
-                            if (poke3.equals(number)) {
+                            if (poke3.equals(tvName.getText())) {
+                                fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                 fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                 isInTeam = true;
                             }
                         }
                         if (!(poke4 == null)){
-                            if (poke4.equals(number)) {
+                            if (poke4.equals(tvName.getText())) {
+                                fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                 fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                 isInTeam = true;
                             }
                         }
                         if (!(poke5 == null)){
-                            if (poke5.equals(number)) {
+                            if (poke5.equals(tvName.getText())) {
+                                fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                 fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                 isInTeam = true;
                             }
                         }
                         if (!(poke6 == null)){
-                            if (poke6.equals(number)) {
+                            if (poke6.equals(tvName.getText())) {
+                                fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                 fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                 isInTeam = true;
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         // Maneja el error de lectura de datos
@@ -275,21 +396,29 @@ public class PokemonFragment extends Fragment {
 
     private void favorito(){
 
-        String number = "";
-        Boolean estado = false;
+        String name = "";
+        String evolution;
 
         Bundle bundle = getArguments();
+
         if (bundle != null) {
-            number = bundle.getString("number");
+            name = bundle.getString("name");
+            evolution = bundle.getString("Evolution");
+            if (evolution == null){
+                tvName.setText(name);
+            }else{
+                tvName.setText(evolution);
+                name = evolution;
+            }
 
         }else{
             Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
         }
 
-        if (therAreFavorite == false) {
+        if (therAreFavorite) {
             if (isFavorite) {
 
-                final String pokeToRemove = number;
+                final String pokeToRemove = name;
                 String id = mAuth.getCurrentUser().getUid();
                 DatabaseReference userRef = mDatabase.child("Users").child(id).child("Favorite");
 
@@ -331,59 +460,69 @@ public class PokemonFragment extends Fragment {
                 });
 
             } else {
-                String id = mAuth.getCurrentUser().getUid();
-                mDatabase.child("Users").child(id).child("Favorite").setValue(number).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task2) {
-                        if (task2.isSuccessful()){
-                            fabFavorite.setImageResource(R.drawable.icon_favorite_24);
-                            Toast.makeText(getContext(), "Pokemon seleccionado como favorito", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(getContext(), "Pokemon No sea seleccionado como favoritn", Toast.LENGTH_SHORT).show();
-                        }
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                String finalNumber = name;
+                alert.setTitle("Confirmar").setMessage("Ya tienes un pokemon favorito ¿Estas seguro de remplazarlo? ").setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String id = mAuth.getCurrentUser().getUid();
+                        mDatabase.child("Users").child(id).child("Favorite").setValue(finalNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if (task2.isSuccessful()){
+                                    fabFavorite.setImageResource(R.drawable.icon_favorite_24);
+                                    Toast.makeText(getContext(), "Pokemon seleccionado como favorito", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(getContext(), "Pokemon No sea seleccionado como favoritn", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
-                });
+                })
+                .setNegativeButton("No", null)
+                .setCancelable(false).show();
             }
             isFavorite = !isFavorite;
-
         }else{
-            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-            String finalNumber = number;
-            alert.setTitle("Confirmar").setMessage("Ya tienes un pokemon favorito ¿Estas seguro de remplazarlo? ").setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    String id = mAuth.getCurrentUser().getUid();
-                    mDatabase.child("Users").child(id).child("Favorite").setValue(finalNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task2) {
-                            if (task2.isSuccessful()){
-                                fabFavorite.setImageResource(R.drawable.icon_favorite_24);
-                                Toast.makeText(getContext(), "Pokemon seleccionado como favorito", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Toast.makeText(getContext(), "Pokemon No sea seleccionado como favoritn", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            String id = mAuth.getCurrentUser().getUid();
+
+            mDatabase.child("Users").child(id).child("Favorite").setValue(name).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task2) {
+                    if (task2.isSuccessful()){
+                        fabFavorite.setImageResource(R.drawable.icon_favorite_24);
+                        Toast.makeText(getContext(), "Pokemon seleccionado como favorito", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Pokemon No sea seleccionado como favoritn", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            })
-                    .setNegativeButton("No", null)
-                    .setCancelable(false).show();
+            });
         }
     }
 
     private void AgregarEquipo() {
-        String number = "";
+        String name = "";
+        String evolution;
+
         Bundle bundle = getArguments();
+
         if (bundle != null) {
-            number = bundle.getString("number");
+            name = bundle.getString("name");
+            evolution = bundle.getString("Evolution");
+            if (evolution == null){
+                tvName.setText(name);
+            }else{
+                tvName.setText(evolution);
+                name = evolution;
+            }
 
         }else{
             Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
         }
 
         if (isInTeam) {
-            final String pokeToRemove = number;
+            final String pokeToRemove = name;
             String id = mAuth.getCurrentUser().getUid();
             DatabaseReference userRef = mDatabase.child("Users").child(id).child("Equipo");
 
@@ -411,6 +550,7 @@ public class PokemonFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     // Operación exitosa
                                     Toast.makeText(getContext(), "El Pokemon a dejado el equipo", Toast.LENGTH_SHORT).show();
+                                    fabAdd.setImageResource(R.drawable.icon_add_24);
                                     fabAdd.getDrawable().setColorFilter(null);
                                 } else {
                                     // Manejar errores
@@ -436,7 +576,7 @@ public class PokemonFragment extends Fragment {
             DatabaseReference userRef = mDatabase.child("Users").child(id).child("Equipo");
 
             // Lee el array actual de "Equipo"
-            String finalNumber = number;
+            String finalNumber = name;
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -455,9 +595,11 @@ public class PokemonFragment extends Fragment {
 
                         // Actualiza el campo "Equipo" en la base de datos
                         userRef.setValue(equipoList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @SuppressLint("ResourceAsColor")
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                                     fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                                     Toast.makeText(getContext(), "Pokemon seleccionado para equipo", Toast.LENGTH_SHORT).show();
                                     isInTeam = !isInTeam;
@@ -593,7 +735,6 @@ public class PokemonFragment extends Fragment {
         layoutPoke6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
                 newisInTeam = true;
                 cambairPoke(5);
@@ -618,10 +759,18 @@ public class PokemonFragment extends Fragment {
 
     private void cambairPoke(int indice){
 
-        String number = "";
+        String name = "";
+        String evolution = "";
         Bundle bundle = getArguments();
         if (bundle != null) {
-            number = bundle.getString("number");
+            name = bundle.getString("name");
+            evolution = bundle.getString("Evolution");
+            if (evolution == null){
+                tvName.setText(name);
+            }else{
+                tvName.setText(evolution);
+                name = evolution;
+            }
 
         }else{
             Toast.makeText(getContext(), "No se enontro la informacion del Pokemon", Toast.LENGTH_SHORT).show();
@@ -630,7 +779,7 @@ public class PokemonFragment extends Fragment {
         String id = mAuth.getCurrentUser().getUid();
         DatabaseReference userRef = mDatabase.child("Users").child(id).child("Equipo");
 
-        String finalNumber = number;
+        String finalNumber = name;
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -649,6 +798,7 @@ public class PokemonFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            fabAdd.setImageResource(R.drawable.icon_catching_pokemon_24);
                             fabAdd.getDrawable().setColorFilter(getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_IN); // Cambiar el color del ícono
                             Toast.makeText(getContext(), "Pokemon seleccionado para equipo", Toast.LENGTH_SHORT).show();
                         } else {

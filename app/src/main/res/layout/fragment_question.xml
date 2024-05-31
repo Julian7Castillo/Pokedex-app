@@ -79,6 +79,62 @@
                     android:textSize="25sp"
                     android:layout_marginBottom="20dp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sobre la aplicacion:"
+                    android:textColor="@color/Fullblack"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Creado por:"
+                    android:textColor="@color/Fullblack"
+                    android:textStyle="bold"
+                    android:textSize="25sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Castleware"
+                    android:textColor="@color/Fullblack"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Version:"
+                    android:textColor="@color/Fullblack"
+                    android:textSize="25sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.10.2"
+                    android:textColor="@color/Fullblack"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha de actualización:"
+                    android:textColor="@color/Fullblack"
+                    android:textSize="25sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="31 de mayo 2024"
+                    android:textColor="@color/Fullblack"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="20dp"/>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
